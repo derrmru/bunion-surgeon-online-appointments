@@ -13,7 +13,6 @@
     border: 5px solid white;
     margin: auto;
     overflow-y: scroll;
-    padding-bottom: 50px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -23,5 +22,6 @@
     .border {
         margin: 1vh auto;
         height: 90vh;
+        padding-bottom: 75px;
     }
 }
