@@ -5,13 +5,14 @@ import style from './FindPatient.module.css'
 import { methods } from '../objects/methods'
 
 interface Props {
-    setFound: (b: []) => void,
+    setFound: (b: [boolean, boolean]) => void,
     setLoading: (b: boolean) => void,
     availability: [],
-    setStage: (n: number) => void
+    setStage: (n: number) => void,
+    setProfile: (a: [string, string]) => void
 }
 
-const FindPatient = ({ setFound, setLoading, availability, setStage }: Props) => {
+const FindPatient = ({ setFound, setLoading, availability, setStage, setProfile }: Props) => {
     const [fields, setFields] = useState<{[index: string]: string}>({});
     const updateField = (name: string, value: string) => {
         const temp = {...fields}
@@ -29,6 +30,7 @@ const FindPatient = ({ setFound, setLoading, availability, setStage }: Props) =>
         }
         const complete = (result: any) => {
             setFound(result)
+            setProfile([fields.first_name, fields.last_name])
             availability.length > 0 ? setLoading(false) : setLoading(true)
             setStage(1)
         }

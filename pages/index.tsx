@@ -12,6 +12,7 @@ import Thanks from '../components/Thanks'
 
 import Head from 'next/head'
 import style from '../styles/Home.module.css'
+import FinaliseFollowUp from '../components/FinaliseFollowUp'
 
 export default function Home() {
   //progress bar data
@@ -34,6 +35,10 @@ export default function Home() {
     },
     {
       number: 3,
+      title: 'Reserve Follow Up'
+    },
+    {
+      number: 3,
       title: 'Thank You'
     }
   ]
@@ -43,9 +48,10 @@ export default function Home() {
   //handle Appointment Type Select
   const [availability, setAvailability] = useState<[]>([]);
   const [type, setType] = useState<string>('');
-  const [found, setFound] = useState<[]>([]);
+  const [found, setFound] = useState<[boolean, boolean]>([false, false]);
+  const [profile, setProfile] = useState<[string, string]>();
   const selectType = (type: string, length: number) => {
-    setFound([]) //reset if return to appointment page
+    setFound([false, false]) //reset if return to appointment page
     const date = new Date()
     const data = { date: date, appointmentLength: length, type: type }
     if (type.indexOf('NP') >= 0) {
@@ -115,13 +121,15 @@ export default function Home() {
                           availability={availability}
                           setSelectedTime={(s: [date: string, time: string]) => setSelectedTime(s)}
                           setStage={(n: number) => setStage(stages[n])}
+                          found={found}
                           /> :
                           stage.title === 'Help Us To Find You' ?
                             <FindPatient 
-                              setFound={(b: []) => setFound(b)}
+                              setFound={(b: [boolean, boolean]) => setFound(b)}
                               setLoading={(b: boolean) => setLoading(b)}
                               availability={availability}
                               setStage={(n: number) => setStage(stages[n])}
+                              setProfile={(a: [string, string]) => setProfile(a)}
                               /> :
                               stage.title === 'Appointment Details' ?
                                 <BookingForm 
@@ -130,8 +138,17 @@ export default function Home() {
                                   setLoading={(b) => setLoading(b)}
                                   type={type}
                                   /> :
-                                  stage.title === 'Thank You' &&
-                                    <Thanks />
+                                  stage.title === 'Reserve Follow Up' ?
+                                    <FinaliseFollowUp 
+                                      type={type}
+                                      setStage={(n: number) => setStage(stages[n])}
+                                      selectedTime={selectedTime}
+                                      found={found}
+                                      setLoading={(b: boolean) => setLoading(b)}
+                                      profile={profile}
+                                      /> :
+                                      stage.title === 'Thank You' &&
+                                        <Thanks />
           }
           
         </div>

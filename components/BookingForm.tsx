@@ -29,7 +29,6 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
         e.preventDefault()
         setLoading(true)
         const d = new Date(selectedTime[0] + ' ' + selectedTime[1])
-        console.log(d)
         const data = {
             ...fields,
             appointmentType: type,
@@ -44,7 +43,7 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
         data['title'] = data['title'][0].toUpperCase() + data['title'].slice(1);
         data['date_of_birth'] = data['date_of_birth'].split('-').reverse().join('.');
         const complete = (stage) => {
-            type === 'KN-VIRTUAL' ? setStage(3) : setStage(4)
+            type === 'KN-VIRTUAL' ? setStage(3) : setStage(5)
             setLoading(false)
         }
         type === 'KN-VIRTUAL' ? methods.post(

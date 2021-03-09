@@ -5,10 +5,11 @@ import { methods } from '../objects/methods'
 interface Props {
     availability: [],
     setStage: (n: number) => void,
-    setSelectedTime: (s: [date: string, time: string]) => void
+    setSelectedTime: (s: [date: string, time: string]) => void,
+    found: [boolean, boolean]
 }
 
-const SelectTime = ({availability, setStage, setSelectedTime}: Props) => {
+const SelectTime = ({availability, setStage, setSelectedTime, found}: Props) => {
     //reduce availability to collection of dates
     const times = availability.reduce((times, cur: string) => {
         const date = cur.split(',')[0];
@@ -25,7 +26,7 @@ const SelectTime = ({availability, setStage, setSelectedTime}: Props) => {
     //handle appointment select
     const select = (date: string, time: string) => {
         setSelectedTime([date, time])
-        setStage(2)
+        found[0] ? setStage(4) : setStage(2)
     }
 
     return (
