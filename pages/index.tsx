@@ -90,7 +90,6 @@ export default function Home() {
     <Layout>
 
       <Head>
-        <html lang="en" />
         <title>Bunion Surgeon - Book An Appointment</title>
         <meta 
           name="description" 
