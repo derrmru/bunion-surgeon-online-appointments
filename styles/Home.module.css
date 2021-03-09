@@ -15,6 +15,12 @@
     overflow-y: scroll;
 }
 
+@media only screen and (max-width: 1025px) {
+    .border {
+        padding-bottom: 75px;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .title {
         font-size: 24px;
@@ -22,6 +28,5 @@
     .border {
         margin: 1vh auto;
         height: 90vh;
-        padding-bottom: 75px;
     }
 }
