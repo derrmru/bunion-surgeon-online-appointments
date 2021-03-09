@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
 }
 
 .border {
@@ -13,10 +13,15 @@
     border: 5px solid white;
     margin: auto;
     overflow-y: scroll;
+    padding-bottom: 50px;
 }
 
 @media only screen and (max-width: 600px) {
     .title {
         font-size: 24px;
+    }
+    .border {
+        margin: 1vh auto;
+        height: 90vh;
     }
 }
