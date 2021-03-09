@@ -89,9 +89,31 @@
     transition: 0.2s;
 }
 
+.stageButton {
+    width: 45%;
+    margin: 20px 0;
+    padding: 10px 0;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    font-family: inherit;
+    font-weight: 200;
+    color: var(--the-black);
+}
+
+@media (hover:hover) {
+    .stageButton:hover {
+        background-color: var(--the-blue);
+        color: white;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .calendar {
         width: 98%;
         margin: 10px auto;
+    }
+    .stageButton {
+        width: 90%;
     }
 }

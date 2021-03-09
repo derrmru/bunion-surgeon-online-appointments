@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import style from './Calendar.module.css'
 
 interface Props {
@@ -61,6 +62,7 @@ const Calendar: React.FC<Props> = (props) => {
     }, [currentMonth, currentYear]) 
 
     return (
+        <>
         <div className={style.calendar}>
                     <div className={style.calUiContainer}>
                         <hr />
@@ -120,6 +122,11 @@ const Calendar: React.FC<Props> = (props) => {
                     </div>
         
         </div>
+
+        <Link href='/'>
+            <button className={style.stageButton}>Choose Different Appointment Type</button>
+        </Link>
+        </>
     )
 }
 
