@@ -74,6 +74,7 @@ const Virtual = () => {
         <Layout>
 
             <Head>
+                <html lang="en" />
                 <title>Bunion Surgeon - Book A Virtual Appointment</title>
                 <meta 
                     name="description" 
