@@ -13,10 +13,10 @@ const AppointmentType = (props: Props) => {
               Object.keys(aTypes).map((type, i) => {
                 return (
                   <Link
+                    key={'type' + i}
                     href={type === 'KN-VIRTUAL' ? '/virtual-appointments' : '/'}
                     >
                     <div
-                      key={'type' + i}
                       className={style.appointmentCard}
                       onClick={() => props.selectType(type, aTypes[type]['length'])}
                       >
