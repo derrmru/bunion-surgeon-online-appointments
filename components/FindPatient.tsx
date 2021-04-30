@@ -29,10 +29,12 @@ const FindPatient = ({ setFound, setLoading, availability, setStage, setProfile 
             name: fields.last_name
         }
         const complete = (result: any) => {
+            console.log(result)
             setFound(result)
             setProfile([fields.first_name, fields.last_name])
+            console.log(availability)
             availability.length > 0 ? setLoading(false) : setLoading(true)
-            setStage(1)
+            result[0] == true && setStage(1)
         }
         //setLoading(true)
         methods.post(
