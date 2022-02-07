@@ -17,9 +17,9 @@ interface Props {
 
 const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     //handle form state
-    const [fields, setFields] = useState<{[index: string]: string}>({});
+    const [fields, setFields] = useState<{ [index: string]: string }>({});
     const updateField = (name: string, value: string) => {
-        const temp = {...fields}
+        const temp = { ...fields }
         temp[name] = value;
         setFields(temp)
     }
@@ -51,11 +51,11 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
             data,
             complete
         ) :
-        methods.post(
-            process.env.NEXT_PUBLIC_BOOK_NP,
-            data,
-            complete
-        )
+            methods.post(
+                process.env.NEXT_PUBLIC_BOOK_NP,
+                data,
+                complete
+            )
     }
 
     //render google auto complete for address fields
@@ -93,13 +93,13 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
 
             autoGP.setFields(['address_component']);
             const val = address
-                    .reduce((total: [string], cur: {}) => {
-                        const c = cur['long_name'];
-                        total.push(c)
-                        return total
-                    }, [])
-                    .filter((c: string) => c !== 'United Kingdom' && c !== 'Greater London' && c !== 'England')
-                    .join(', ')
+                .reduce((total: [string], cur: {}) => {
+                    const c = cur['long_name'];
+                    total.push(c)
+                    return total
+                }, [])
+                .filter((c: string) => c !== 'United Kingdom' && c !== 'Greater London' && c !== 'England')
+                .join(', ')
             setGpAddress(val)
         }
         autoGP.addListener("place_changed", handleGpPlaceSelect)
@@ -119,191 +119,191 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     return (
         <div className={style.form}>
             <div className={style.selection}>
-                <strong>You have selected: </strong> 
+                <strong>You have selected: </strong>
                 {new Date(selectedTime.join(' ')).toDateString() + ' at ' + selectedTime[1].replace(':00 ', ' ')}
             </div>
             <form
                 className={style.formation}
                 onSubmit={(e) => submit(e)}
-                >
-                    <SelectInput 
-                        name="title"
-                        value={fields.title}
+            >
+                <SelectInput
+                    name="title"
+                    value={fields.title}
+                    options={[
+                        'Mr',
+                        'Ms',
+                        'Mrs',
+                        'Miss',
+                        'Master',
+                        'Doctor',
+                        'Lord'
+                    ]}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <TextInput
+                    name='first_name'
+                    value={fields.first_name}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <TextInput
+                    name='last_name'
+                    value={fields.last_name}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <DateInput
+                    name='date_of_birth'
+                    value={fields.date_of_birth}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <TextInput
+                    name='telephone'
+                    value={fields.telephone}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <TextInput
+                    name='email'
+                    value={fields.email}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                <TextInput
+                    name='address'
+                    value={address}
+                    updateField={(name: string, value: string) => setAddress(value)}
+                    description="Your Home Address"
+                    id="address"
+                />
+                <TextInput
+                    name='gp_address'
+                    value={gpAddress}
+                    updateField={(name: string, value: string) => setGpAddress(value)}
+                    description="Your General Practitioner's Address"
+                    id="GP"
+                />
+                {
+                    type === 'KN-VIRTUAL' && <SelectInput
+                        name="contact_method"
+                        value={fields.contact_method}
                         options={[
-                            'Mr',
-                            'Ms',
-                            'Mrs',
-                            'Miss',
-                            'Master',
-                            'Doctor',
-                            'Lord'
+                            'Zoom',
+                            'Facetime',
+                            'WhatsApp',
+                            'Telephone'
                         ]}
                         updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <TextInput 
-                        name='first_name'
-                        value={fields.first_name}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <TextInput 
-                        name='last_name'
-                        value={fields.last_name}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <DateInput 
-                        name='date_of_birth'
-                        value={fields.date_of_birth}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <TextInput 
-                        name='telephone'
-                        value={fields.telephone}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <TextInput 
-                        name='email'
-                        value={fields.email}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    <TextInput 
-                        name='address'
-                        value={address}
-                        updateField={(name: string, value: string) => setAddress(value)}
-                        description="Your Home Address"
-                        id="address"
-                        />
-                    <TextInput 
-                        name='gp_address'
-                        value={gpAddress}
-                        updateField={(name: string, value: string) => setGpAddress(value)}
-                        description="Your General Practitioner's Address"
-                        id="GP"
-                        />
-                    {
-                        type === 'KN-VIRTUAL' && <SelectInput 
-                            name="contact_method"
-                            value={fields.contact_method}
-                            options={[
-                                'Zoom',
-                                'Skype',
-                                'WhatsApp',
-                                'Telephone'
-                            ]}
-                            updateField={(name: string, value: string) => updateField(name, value)}
-                            />
-                    }
-                    <SelectInput 
-                        name="method_of_payment"
-                        value={fields.method_of_payment}
-                        options={[
-                            'Self Funding', 
-                            'Aetna', 
-                            'Allianz', 
-                            'Aviva', 
-                            'AXA PPP', 
-                            'AXA PPP International', 
-                            'Bupa', 
-                            'Cigna', 
-                            'Cigna International',
-                            'Exeter Friendly',
-                            'Healix',
-                            'Simply Health',
-                            'Vitality',
-                            'WPA'
-                        ]}
-                        updateField={(name: string, value: string) => updateField(name, value)}
-                        />
-                    {
-                        (fields.method_of_payment !== '' && fields.method_of_payment !== "self-funding" && fields.method_of_payment !== undefined) ?
+                    />
+                }
+                <SelectInput
+                    name="method_of_payment"
+                    value={fields.method_of_payment}
+                    options={[
+                        'Self Funding',
+                        'Aetna',
+                        'Allianz',
+                        'Aviva',
+                        'AXA PPP',
+                        'AXA PPP International',
+                        'Bupa',
+                        'Cigna',
+                        'Cigna International',
+                        'Exeter Friendly',
+                        'Healix',
+                        'Simply Health',
+                        'Vitality',
+                        'WPA'
+                    ]}
+                    updateField={(name: string, value: string) => updateField(name, value)}
+                />
+                {
+                    (fields.method_of_payment !== '' && fields.method_of_payment !== "self-funding" && fields.method_of_payment !== undefined) ?
                         <>
                             <hr />
-                            <TextInput 
+                            <TextInput
                                 name='policy'
                                 value={fields.policy}
                                 updateField={(name: string, value: string) => updateField(name, value)}
-                                />
-                            <TextInput 
+                            />
+                            <TextInput
                                 name='authorisation'
                                 value={fields.authorisation}
                                 updateField={(name: string, value: string) => updateField(name, value)}
-                                />
+                            />
                         </> :
                         fields.method_of_payment === 'self-funding' &&
                         <>
                             <hr />
-                            <div style={{fontSize: '14px', width: '90%', margin: 'auto'}}>
+                            <div style={{ fontSize: '14px', width: '90%', margin: 'auto' }}>
                                 The appointment fee is £{aTypes[type]['price']}.<br />
                                 {
-                                    type !== 'KN-VIRTUAL' ? 
+                                    type !== 'KN-VIRTUAL' ?
                                         <><br />When you submit the form you can opt to either pay now or pay in clinic.</> :
-                                            <><br />Payment will be collected when submitting this form, which will complete your booking.</>
+                                        <><br />Payment will be collected when submitting this form, which will complete your booking.</>
                                 }
                             </div>
                         </>
-                    }
-                    <hr />
-                    <Checkbox 
-                        name="privacy"
-                        value={fields.privacy}
-                        updateField={(name: string, value: any) => updateField(name, value)}
-                        description="By checking this box you agree that you have read our privacy policy and that the personal information you provide will be processed in accordance with this."
-                        required={true}
-                        label="I AGREE"
-                        />
-                    <hr />
-                    {
-                        (fields.method_of_payment === 'self-funding' && type !== 'KN-VIRTUAL') ?
+                }
+                <hr />
+                <Checkbox
+                    name="privacy"
+                    value={fields.privacy}
+                    updateField={(name: string, value: any) => updateField(name, value)}
+                    description="By checking this box you agree that you have read our privacy policy and that the personal information you provide will be processed in accordance with this."
+                    required={true}
+                    label="I AGREE"
+                />
+                <hr />
+                {
+                    (fields.method_of_payment === 'self-funding' && type !== 'KN-VIRTUAL') ?
                         <>
-                            <input 
-                                className={style.stageButton} 
+                            <input
+                                className={style.stageButton}
                                 style={{
-                                    width: '98%', 
+                                    width: '98%',
                                     border: '2px solid var(--the-black)',
                                     fontWeight: 400
-                                    }} 
-                                type="submit" 
-                                value="pay in clinic" 
-                                />
-                            <div style={{width: '80%', margin: 'auto'}}>
-                                <Paypal 
+                                }}
+                                type="submit"
+                                value="pay in clinic"
+                            />
+                            <div style={{ width: '80%', margin: 'auto' }}>
+                                <Paypal
                                     price={aTypes[type]['price']}
                                     description={aTypes[type]['description']}
                                     paySubmit={() => submit()}
-                                    />
+                                />
                             </div>
                         </> :
                         (fields.method_of_payment === 'self-funding' && type === 'KN-VIRTUAL') ?
-                            <div style={{width: '80%', margin: 'auto'}}>
-                                <Paypal 
+                            <div style={{ width: '80%', margin: 'auto' }}>
+                                <Paypal
                                     price={aTypes[type]['price']}
                                     description={aTypes[type]['description']}
                                     paySubmit={() => submit()}
-                                    />
+                                />
                             </div> :
-                                <input 
-                                    className={style.stageButton} 
-                                    style={{
-                                        width: '98%', 
-                                        border: '2px solid var(--the-black)',
-                                        fontWeight: 400
-                                        }} 
-                                    type="submit" 
-                                    value="submit" 
-                                    />
-                    }
+                            <input
+                                className={style.stageButton}
+                                style={{
+                                    width: '98%',
+                                    border: '2px solid var(--the-black)',
+                                    fontWeight: 400
+                                }}
+                                type="submit"
+                                value="submit"
+                            />
+                }
             </form>
             <div className={style.stageContainer}>
                 <button
                     className={style.stageButton}
                     onClick={() => setStage(1)}
-                    >
-                        Change Selected Time
+                >
+                    Change Selected Time
                 </button>
                 <button
                     className={style.stageButton}
                     onClick={() => setStage(0)}
-                    >
-                        {type === 'KN-VIRTUAL' ? 'Select A Different Date' : 'Change Appointment Type'}
+                >
+                    {type === 'KN-VIRTUAL' ? 'Select A Different Date' : 'Change Appointment Type'}
                 </button>
             </div>
         </div>
