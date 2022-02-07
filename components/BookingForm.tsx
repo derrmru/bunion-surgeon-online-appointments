@@ -109,7 +109,7 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     useEffect(() => {
         if (!googleLoad) {
             const script = document.createElement("script");
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAkuPHNHz8Ki1KV6n6iI1-EFVIC3ZAm0QY&libraries=places";
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_API}&libraries=places`;
             script.async = true;
             script.onload = () => renderGoogle();
             document.body.appendChild(script);
