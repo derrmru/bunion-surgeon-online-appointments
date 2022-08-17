@@ -1,19 +1,19 @@
 const aTypes = {
-    'KN-NP' : {
+    'KN-NP': {
         length: 20,
         price: 200,
         consultant: 'Mr. Kaser Nazir',
         type: 'New Consultation',
         description: 'In-Clinic Appointment with Consultant Podiatric Surgeon, Mr. Kaser Nazir.'
     },
-    'KN-FU' : {
+    'KN-FU': {
         length: 20,
-        price: 130,
+        price: 150,
         consultant: 'Mr. Kaser Nazir',
         type: 'Follow Up Appointment',
         description: 'Follow Up In-Clinic Appointment with Consultant Podiatric Surgeon, Mr. Kaser Nazir.'
     },
-    'KN-VIRTUAL' :  {
+    'KN-VIRTUAL': {
         length: 15,
         price: 100,
         consultant: 'Mr. Kaser Nazir',
