@@ -46,11 +46,13 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
             type === 'KN-VIRTUAL' ? setStage(3) : setStage(5)
             setLoading(false)
         }
-        type === 'KN-VIRTUAL' ? methods.post(
-            process.env.NEXT_PUBLIC_BOOK_VIRTUAL,
-            data,
-            complete
-        ) :
+        type === 'KN-VIRTUAL'
+            ? methods.post(
+                process.env.NEXT_PUBLIC_BOOK_VIRTUAL,
+                data,
+                complete
+            )
+            :
             methods.post(
                 process.env.NEXT_PUBLIC_BOOK_NP,
                 data,

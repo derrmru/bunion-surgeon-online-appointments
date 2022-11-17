@@ -35,6 +35,7 @@ const FinaliseFollowUp: React.FC<Props> = (props) => {
             hours: d.getHours(),
             minutes: d.getMinutes()
         }
+        console.log(data)
         const complete = () => {
             props.setStage(5)
             props.setLoading(false)
@@ -50,59 +51,59 @@ const FinaliseFollowUp: React.FC<Props> = (props) => {
         <div className={style.fuPayContainer}>
             <div className={style.fuPay}>
                 <div className={style.selection}>
-                    <strong>You have selected: </strong> 
+                    <strong>You have selected: </strong>
                     {selectedDate.split(':00 GMT')[0]}
                 </div>
                 <hr className={style.hr} />
                 <p>Please provide an email address to receive confirmation of your appointment.</p>
-                <TextInput 
+                <TextInput
                     name='email'
                     value={fuEmail}
                     updateField={(name: string, value: string) => setFuEmail(value)}
                     description="Please provide an email address to receive confirmation of your booking"
-                    />
-                <Checkbox 
+                />
+                <Checkbox
                     name="privacy"
                     value={privacy}
                     updateField={(name: string, value: any) => setPrivacy(value)}
                     description='By checking this box you agree that you have read our privacy policy and that the personal information you provide will be processed in accordance with this.'
                     required={true}
                     label="I AGREE"
-                    />
-            {
-                !props.found[1] ?
-                    <button
-                        className={style.stageButton}
-                        onClick={() => submitFU()}>
+                />
+                {
+                    !props.found[1] ?
+                        <button
+                            className={style.stageButton}
+                            onClick={() => submitFU()}>
                             submit
                         </button> :
-                (fuEmail !== '' && privacy && props.found[1]) &&
-                <>
-                    <hr className={style.hr} />
-                    <p>Our records indicate that you are self funding.</p>
-                    <p style={{width: '90%', margin: 'auto'}}>To complete your booking, please select whether to pay the fee of £{aTypes[props.type]['price']} either now or in clinic.</p>
-                    <button
-                        className={style.stageButton}
-                        onClick={() => submitFU()}
-                        >
-                            Pay In Clinic
-                    </button>
-                    <div className={style.fuPpContainer}>
-                        <Paypal
-                            price={aTypes[props.type]['price']}
-                            description={aTypes[props.type]['description']}
-                            paySubmit={() => submitFU()}
-                            />
-                    </div>
-                </>
-            }
+                        (fuEmail !== '' && privacy && props.found[1]) &&
+                        <>
+                            <hr className={style.hr} />
+                            <p>Our records indicate that you are self funding.</p>
+                            <p style={{ width: '90%', margin: 'auto' }}>To complete your booking, please select whether to pay the fee of £{aTypes[props.type]['price']} either now or in clinic.</p>
+                            <button
+                                className={style.stageButton}
+                                onClick={() => submitFU()}
+                            >
+                                Pay In Clinic
+                            </button>
+                            <div className={style.fuPpContainer}>
+                                <Paypal
+                                    price={aTypes[props.type]['price']}
+                                    description={aTypes[props.type]['description']}
+                                    paySubmit={() => submitFU()}
+                                />
+                            </div>
+                        </>
+                }
             </div>
             <button
-                    className={style.stageButton}
-                    onClick={() => props.setStage(1)}
-                    >
-                    Select A Different Time
-            </button>  
+                className={style.stageButton}
+                onClick={() => props.setStage(1)}
+            >
+                Select A Different Time
+            </button>
         </div>
     )
 }

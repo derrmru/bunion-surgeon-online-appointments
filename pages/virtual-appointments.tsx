@@ -13,23 +13,23 @@ import Thanks from '../components/Thanks'
 const Virtual = () => {
     const stages = [
         {
-          number: 1,
-          title: 'Select A Date'
+            number: 1,
+            title: 'Select A Date'
         },
         {
-          number: 2,
-          title: 'Select Appointment Time'
+            number: 2,
+            title: 'Select Appointment Time'
         },
         {
-          number: 3,
-          title: 'Appointment Details'
+            number: 3,
+            title: 'Appointment Details'
         },
         {
-          number: 3,
-          title: 'Thank You'
+            number: 3,
+            title: 'Thank You'
         }
     ];
-    const [stage, setStage] = useState<{number: number, title: string}>(stages[0]);
+    const [stage, setStage] = useState<{ number: number, title: string }>(stages[0]);
     const [loading, setLoading] = useState<boolean>(false);
 
     //calendar
@@ -46,9 +46,9 @@ const Virtual = () => {
             setAvailableTimes(r.freeslots)
             setLoading(false)
         }
-        methods.post (
+        methods.post(
             process.env.NEXT_PUBLIC_VIRTUAL_GET_TIMES,
-            {"selectedDate": selectedDate},
+            { "selectedDate": selectedDate },
             complete
         )
     }
@@ -59,10 +59,10 @@ const Virtual = () => {
         }
         methods.post(
             process.env.NEXT_PUBLIC_VIRTUAL_DATES,
-            {"year": date.getFullYear()},
+            { "year": date.getFullYear() },
             complete
         )
-    })
+    }, [])
 
     //select Time
     const selectTime = (selectedTime: string) => {
@@ -75,51 +75,51 @@ const Virtual = () => {
 
             <Head>
                 <title>Bunion Surgeon - Book A Virtual Appointment</title>
-                <meta 
-                    name="description" 
-                    content="Book a virtual appointment quickly and easily online with our Surgical Consultant, Mr. Kaser Nazir." 
-                    />
-                <meta 
-                    name="viewport" 
+                <meta
+                    name="description"
+                    content="Book a virtual appointment quickly and easily online with our Surgical Consultant, Mr. Kaser Nazir."
+                />
+                <meta
+                    name="viewport"
                     content="width=device-width, initial-scale=1.0,user-scalable=0"
-                    />
+                />
             </Head>
 
             <div className={style.container}>
                 <div className={style.border}>
                     <h1 className={style.title}>Book A Virtual Appointment</h1>
 
-                    <Progress 
+                    <Progress
                         currentStage={stage}
                         stages={stages}
                         stageName={stage.title}
                         backgroundColor='var(--the-blue)'
                         borderColor='var(--the-black)'
-                        />
+                    />
 
                     {
                         loading ?
                             <Loading /> :
-                                stage.title === 'Select A Date' ? 
-                                    <Calendar 
-                                        availableDates={availableDates}
-                                        date={date}
-                                        updateCalendar={(selectedDate: Date) => updateCalendar(selectedDate)}
-                                        /> :
-                                    stage.title === 'Select Appointment Time' ?
-                                        <AvailableTimes 
-                                            availableTimes={availableTimes}
-                                            selectTime={(selectedTime: string) => selectTime(selectedTime)}
+                            stage.title === 'Select A Date' ?
+                                <Calendar
+                                    availableDates={availableDates}
+                                    date={date}
+                                    updateCalendar={(selectedDate: Date) => updateCalendar(selectedDate)}
+                                /> :
+                                stage.title === 'Select Appointment Time' ?
+                                    <AvailableTimes
+                                        availableTimes={availableTimes}
+                                        selectTime={(selectedTime: string) => selectTime(selectedTime)}
+                                        setStage={(n: number) => setStage(stages[n])}
+                                    /> :
+                                    stage.title === 'Appointment Details' ?
+                                        <BookingForm
+                                            selectedTime={selectedTime}
                                             setStage={(n: number) => setStage(stages[n])}
-                                            /> :
-                                        stage.title === 'Appointment Details' ?
-                                            <BookingForm 
-                                                selectedTime={selectedTime}
-                                                setStage={(n: number) => setStage(stages[n])}
-                                                setLoading={(b) => setLoading(b)}
-                                                type={'KN-VIRTUAL'}
-                                                /> :
-                                                <Thanks />
+                                            setLoading={(b) => setLoading(b)}
+                                            type={'KN-VIRTUAL'}
+                                        /> :
+                                        <Thanks />
                     }
 
                 </div>

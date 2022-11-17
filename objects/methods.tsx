@@ -2,8 +2,8 @@ import $ from 'jquery'
 
 export const methods = {
     post: (url: string, data: {}, callback: (result: any) => void) => {
-        $.post(url, 
-            data, 
+        $.post(url,
+            data,
             async (res) => {
                 let result = await JSON.parse(res);
                 callback(result)
