@@ -28,7 +28,8 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     const submit = (e?: any) => {
         e.preventDefault()
         setLoading(true)
-        const d = new Date(selectedTime[0] + ' ' + selectedTime[1])
+        const newTime = selectedTime[1].replace(/[ AM]/g, '').trim()
+        const d = new Date(selectedTime[0] + ' ' + newTime)
         const data = {
             ...fields,
             appointmentType: type,
@@ -122,7 +123,7 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
         <div className={style.form}>
             <div className={style.selection}>
                 <strong>You have selected: </strong>
-                {new Date(selectedTime.join(' ')).toDateString() + ' at ' + selectedTime[1].replace(':00 ', ' ')}
+                {new Date(selectedTime[0]).toDateString() + ' at ' + selectedTime[1].replace(':00 ', ' ')}
             </div>
             <form
                 className={style.formation}

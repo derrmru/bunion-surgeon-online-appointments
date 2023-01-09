@@ -9,7 +9,7 @@ interface Props {
     found: [boolean, boolean]
 }
 
-const SelectTime = ({availability, setStage, setSelectedTime, found}: Props) => {
+const SelectTime = ({ availability, setStage, setSelectedTime, found }: Props) => {
     //reduce availability to collection of dates
     const times = availability.reduce((times, cur: string) => {
         const date = cur.split(',')[0];
@@ -34,52 +34,52 @@ const SelectTime = ({availability, setStage, setSelectedTime, found}: Props) => 
             <div className={style.dates}>
                 <div
                     className={style.navigate}
+                >
+                    <div
+                        className={style.arrow}
+                        onClick={() => (inc > 5) && setInc(inc - 5)}
                     >
-                        <div 
-                            className={style.arrow}
-                            onClick={() => (inc > 5) && setInc(inc - 5)}
-                            >
-                                &#8678;
-                        </div>
-                        <div className={style.dateRange}>
-                            {methods.readDate(new Date(keys[0]))} - {methods.readDate(new Date(keys[4]))}
-                        </div>
-                        <div 
-                            className={style.arrow}
-                            onClick={() => (inc > 0 && inc <= keys.length) && setInc(inc + 5)}
-                            >
-                                &#8680;
-                        </div>
+                        &#8678;
+                    </div>
+                    <div className={style.dateRange}>
+                        {methods.readDate(new Date(keys[0]))} - {methods.readDate(new Date(keys[4]))}
+                    </div>
+                    <div
+                        className={style.arrow}
+                        onClick={() => (inc > 0 && inc <= keys.length) && setInc(inc + 5)}
+                    >
+                        &#8680;
+                    </div>
                 </div>
                 {keys.map((date, i) => {
                     const d = new Date(date)
                     return <div
                         key={'date' + i}
                         className={style.dateColumn}
-                        >
-                            <div className={style.dateHead}>{methods.readDate(d)}</div>
-                            <hr />
-                            {
-                                times[date].map((time: string, j: number) => {
-                                    return <div
-                                        key={'time' + j}
-                                        className={style.time}
-                                        onClick={() => select(date, time)}
-                                        >
-                                        {time.replace(':00 ', ' ')}
-                                    </div>
-                                })
-                            }
+                    >
+                        <div className={style.dateHead}>{methods.readDate(d)}</div>
+                        <hr />
+                        {
+                            times[date].map((time: string, j: number) => {
+                                return <div
+                                    key={'time' + j}
+                                    className={style.time}
+                                    onClick={() => select(date, time)}
+                                >
+                                    {time.replace(':00 ', ' ')}
+                                </div>
+                            })
+                        }
                     </div>
                 })}
             </div>
             <button
                 className={style.stageButton}
                 onClick={() => setStage(0)}
-                >
-                    Go Back
+            >
+                Go Back
             </button>
-        </div>
+        </div >
     )
 }
 
