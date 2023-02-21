@@ -8,7 +8,7 @@ import style from './BookingForm.module.css'
 import { methods } from '../objects/methods'
 import aTypes from '../objects/appointment_types'
 
-interface Props {
+type Props = {
     setStage: (n: number) => void,
     selectedTime: [date: string, time: string],
     setLoading: (b: boolean) => void,
@@ -28,8 +28,7 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     const submit = (e?: any) => {
         e.preventDefault()
         setLoading(true)
-        const newTime = selectedTime[1].replace(/[ AM]/g, '').trim()
-        const d = new Date(selectedTime[0] + ' ' + newTime)
+        const d = new Date(selectedTime[0] + ' ' + selectedTime[1])
         const data = {
             ...fields,
             appointmentType: type,
