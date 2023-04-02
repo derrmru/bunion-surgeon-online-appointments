@@ -8,14 +8,27 @@ import style from './BookingForm.module.css'
 import { methods } from '../objects/methods'
 import aTypes from '../objects/appointment_types'
 
-type Props = {
+type BookingFormProps = {
     setStage: (n: number) => void,
     selectedTime: [date: string, time: string],
     setLoading: (b: boolean) => void,
     type: string
 }
 
-const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
+function getDateComponents([date, time]) {
+    const splitDate = date.split('/')
+    const splitTime = time.split(' ')[0].split(':')
+    const dateObj = new Date(splitDate[2], Number(splitDate[0]) - 1, splitDate[1], splitTime[0], splitTime[1])
+    return {
+        month: dateObj.getMonth(),
+        date: dateObj.getDate(),
+        year: dateObj.getFullYear(),
+        hours: dateObj.getHours(),
+        minutes: dateObj.getMinutes()
+    }
+}
+
+const BookingForm = ({ setStage, selectedTime, setLoading, type }: BookingFormProps) => {
     //handle form state
     const [fields, setFields] = useState<{ [index: string]: string }>({});
     const updateField = (name: string, value: string) => {
@@ -28,17 +41,17 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: Props) => {
     const submit = (e?: any) => {
         e.preventDefault()
         setLoading(true)
-        const d = new Date(selectedTime[0] + ' ' + selectedTime[1])
+        const { date, month, year, hours, minutes } = getDateComponents(selectedTime)
         const data = {
             ...fields,
             appointmentType: type,
             address: address,
             gpAddress: gpAddress,
-            year: d.getFullYear(),
-            month: d.getMonth(),
-            date: d.getDate(),
-            hours: d.getHours(),
-            minutes: d.getMinutes()
+            year,
+            month,
+            date,
+            hours,
+            minutes
         }
         data['title'] = data['title'][0].toUpperCase() + data['title'].slice(1);
         data['date_of_birth'] = data['date_of_birth'].split('-').reverse().join('.');

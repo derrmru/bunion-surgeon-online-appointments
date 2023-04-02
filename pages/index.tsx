@@ -9,10 +9,10 @@ import SelectTime from '../components/SelectTime'
 import FindPatient from '../components/FindPatient'
 import BookingForm from '../components/BookingForm'
 import Thanks from '../components/Thanks'
+import FinaliseFollowUp from '../components/FinaliseFollowUp'
 
 import Head from 'next/head'
 import style from '../styles/Home.module.css'
-import FinaliseFollowUp from '../components/FinaliseFollowUp'
 
 export default function Home() {
   //progress bar data
@@ -42,7 +42,7 @@ export default function Home() {
       title: 'Thank You'
     }
   ]
-  const [stage, setStage] = useState<{number: number, title: string}>(stages[0]);
+  const [stage, setStage] = useState<{ number: number, title: string }>(stages[0]);
   const [loading, setLoading] = useState<boolean>(false);
 
   //handle Appointment Type Select
@@ -52,8 +52,7 @@ export default function Home() {
   const [profile, setProfile] = useState<[string, string]>();
   const selectType = (type: string, length: number) => {
     setFound([false, false]) //reset if return to appointment page
-    const date = new Date()
-    const data = { date: date, appointmentLength: length, type: type }
+    const postData = { date: new Date(), type, appointmentLength: length }
     if (type.indexOf('NP') >= 0) {
       setLoading(true);
       const complete = (a: []) => {
@@ -63,21 +62,20 @@ export default function Home() {
         setType(type)
       }
       methods.post(
-        process.env.NEXT_PUBLIC_AVAILABILITY, 
-        data,
+        process.env.NEXT_PUBLIC_AVAILABILITY,
+        postData,
         complete
       )
     } else if (type.indexOf('FU') >= 0) {
       setStage(stages[3])
-      const fu = (result: any) => {
+      const completeFollowUp = (result: any) => {
         setAvailability(result)
-        setLoading(false)
         setType(type)
       }
       methods.post(
         process.env.NEXT_PUBLIC_AVAILABILITY,
-        data,
-        fu
+        postData,
+        completeFollowUp
       )
     }
   }
@@ -85,76 +83,75 @@ export default function Home() {
   //handle client profile through stages
   const [selectedTime, setSelectedTime] = useState<[date: string, time: string]>()
 
-  console.log(found)
   return (
     <Layout>
 
       <Head>
         <title>Bunion Surgeon - Book An Appointment</title>
-        <meta 
-          name="description" 
-          content="Book an appointment quickly and easily online with our Surgical Consultant, Mr. Kaser Nazir." 
-          />
-        <meta 
-          name="viewport" 
+        <meta
+          name="description"
+          content="Book an appointment quickly and easily online with our Surgical Consultant, Mr. Kaser Nazir."
+        />
+        <meta
+          name="viewport"
           content="width=device-width, initial-scale=1.0,user-scalable=0"
-          />
+        />
       </Head>
 
       <div className={style.container}>
         <div className={style.border}>
           <h1 className={style.title}>Book An Appointment</h1>
 
-          <Progress 
+          <Progress
             currentStage={stage}
             stages={stages}
             stageName={stage.title}
             backgroundColor='var(--the-blue)'
             borderColor='var(--the-black)'
-            />
+          />
 
           {
             loading ?
               <Loading /> :
-                stage.title === 'Select Appointment Type' ?
-                  <AppointmentType 
-                    selectType={(type: string, length: number) => selectType(type, length)}
+              stage.title === 'Select Appointment Type' ?
+                <AppointmentType
+                  selectType={selectType}
+                /> :
+                stage.title === 'Select Appointment Time' ?
+                  <SelectTime
+                    availability={availability}
+                    setSelectedTime={(s: [date: string, time: string]) => setSelectedTime(s)}
+                    setStage={(n: number) => setStage(stages[n])}
+                    found={found}
+                  /> :
+                  stage.title === 'Help Us To Find You' ?
+                    <FindPatient
+                      setFound={(b: [boolean, boolean]) => setFound(b)}
+                      setLoading={(b: boolean) => setLoading(b)}
+                      availability={availability}
+                      setStage={(n: number) => setStage(stages[n])}
+                      setProfile={(a: [string, string]) => setProfile(a)}
                     /> :
-                      stage.title === 'Select Appointment Time' ? 
-                        <SelectTime 
-                          availability={availability}
-                          setSelectedTime={(s: [date: string, time: string]) => setSelectedTime(s)}
+                    stage.title === 'Appointment Details' ?
+                      <BookingForm
+                        selectedTime={selectedTime}
+                        setStage={(n: number) => setStage(stages[n])}
+                        setLoading={(b) => setLoading(b)}
+                        type={type}
+                      /> :
+                      stage.title === 'Reserve Follow Up' ?
+                        <FinaliseFollowUp
+                          type={type}
                           setStage={(n: number) => setStage(stages[n])}
+                          selectedTime={selectedTime}
                           found={found}
-                          /> :
-                          stage.title === 'Help Us To Find You' ?
-                            <FindPatient 
-                              setFound={(b: [boolean, boolean]) => setFound(b)}
-                              setLoading={(b: boolean) => setLoading(b)}
-                              availability={availability}
-                              setStage={(n: number) => setStage(stages[n])}
-                              setProfile={(a: [string, string]) => setProfile(a)}
-                              /> :
-                              stage.title === 'Appointment Details' ?
-                                <BookingForm 
-                                  selectedTime={selectedTime}
-                                  setStage={(n: number) => setStage(stages[n])}
-                                  setLoading={(b) => setLoading(b)}
-                                  type={type}
-                                  /> :
-                                  stage.title === 'Reserve Follow Up' ?
-                                    <FinaliseFollowUp 
-                                      type={type}
-                                      setStage={(n: number) => setStage(stages[n])}
-                                      selectedTime={selectedTime}
-                                      found={found}
-                                      setLoading={(b: boolean) => setLoading(b)}
-                                      profile={profile}
-                                      /> :
-                                      stage.title === 'Thank You' &&
-                                        <Thanks />
+                          setLoading={(b: boolean) => setLoading(b)}
+                          profile={profile}
+                        /> :
+                        stage.title === 'Thank You' &&
+                        <Thanks />
           }
-          
+
         </div>
       </div>
 

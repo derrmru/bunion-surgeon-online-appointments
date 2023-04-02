@@ -51,18 +51,18 @@ const SelectTime = ({ availability, setStage, setSelectedTime, found }: Props) =
                         &#8680;
                     </div>
                 </div>
-                {keys.map((date, i) => {
+                {keys.map((date) => {
                     const d = new Date(date)
                     return <div
-                        key={'date' + i}
+                        key={date}
                         className={style.dateColumn}
                     >
                         <div className={style.dateHead}>{methods.readDate(d)}</div>
                         <hr />
                         {
-                            times[date].map((time: string, j: number) => {
+                            times[date].map((time: string) => {
                                 return <div
-                                    key={'time' + j}
+                                    key={time}
                                     className={style.time}
                                     onClick={() => select(date, time)}
                                 >
