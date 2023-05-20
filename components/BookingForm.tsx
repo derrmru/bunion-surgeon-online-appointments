@@ -18,7 +18,8 @@ type BookingFormProps = {
 function getDateComponents([date, time]) {
     const splitDate = date.split('/')
     const splitTime = time.split(' ')[0].split(':')
-    const dateObj = new Date(splitDate[2], Number(splitDate[0]) - 1, splitDate[1], splitTime[0], splitTime[1])
+    const hours = time.includes('PM') ? Number(splitTime[0]) + 12 : splitTime[0]
+    const dateObj = new Date(splitDate[2], Number(splitDate[0]) - 1, splitDate[1], hours, splitTime[1])
     return {
         month: dateObj.getMonth(),
         date: dateObj.getDate(),
@@ -55,7 +56,7 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: BookingFormPr
         }
         data['title'] = data['title'][0].toUpperCase() + data['title'].slice(1);
         data['date_of_birth'] = data['date_of_birth'].split('-').reverse().join('.');
-        const complete = (stage) => {
+        const complete = () => {
             type === 'KN-VIRTUAL' ? setStage(3) : setStage(5)
             setLoading(false)
         }
