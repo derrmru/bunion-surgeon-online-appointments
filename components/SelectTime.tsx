@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import style from './SelectTime.module.css'
 import { methods } from '../objects/methods'
+import { getDateComponents } from './BookingForm'
 
 interface Props {
     availability: [],
@@ -42,7 +43,7 @@ const SelectTime = ({ availability, setStage, setSelectedTime, found }: Props) =
                         &#8678;
                     </div>
                     <div className={style.dateRange}>
-                        {methods.readDate(new Date(keys[0]))} - {methods.readDate(new Date(keys[4]))}
+                        {keys[0]} - {keys[4]}
                     </div>
                     <div
                         className={style.arrow}
@@ -52,12 +53,11 @@ const SelectTime = ({ availability, setStage, setSelectedTime, found }: Props) =
                     </div>
                 </div>
                 {keys.map((date) => {
-                    const d = new Date(date)
                     return <div
                         key={date}
                         className={style.dateColumn}
                     >
-                        <div className={style.dateHead}>{methods.readDate(d)}</div>
+                        <div className={style.dateHead}>{date}</div>
                         <hr />
                         {
                             times[date].map((time: string) => {
