@@ -15,11 +15,14 @@ type BookingFormProps = {
     type: string
 }
 
-function getDateComponents([date, time]) {
+export function getDateComponents([date, time]) {
+
     const splitDate = date.split('/')
     const splitTime = time.split(' ')[0].split(':')
-    const hours = time.includes('PM') ? Number(splitTime[0]) + 12 : splitTime[0]
-    const dateObj = new Date(splitDate[2], Number(splitDate[0]) - 1, splitDate[1], hours, splitTime[1])
+    const hours = time.includes('PM') ? Number(splitTime[1]) + 12 : splitTime[0]
+    console.log(splitDate[2])
+    const dateObj = new Date(splitDate[2], Number(splitDate[1]) - 1, splitDate[0], hours, splitTime[1])
+    console.log(dateObj)
     return {
         month: dateObj.getMonth(),
         date: dateObj.getDate(),
@@ -42,7 +45,8 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: BookingFormPr
     const submit = (e?: any) => {
         e.preventDefault()
         setLoading(true)
-        const { date, month, year, hours, minutes } = getDateComponents(selectedTime)
+        const { date, month, hours, minutes } = getDateComponents(selectedTime)
+        const year = selectedTime[0].split('/')[2]
         const data = {
             ...fields,
             appointmentType: type,
@@ -132,11 +136,14 @@ const BookingForm = ({ setStage, selectedTime, setLoading, type }: BookingFormPr
         }
     }, [googleLoad])
 
+    const selectedComponents = getDateComponents([selectedTime[0], selectedTime[1]])
+    const selectedDate = new Date(selectedComponents.year, selectedComponents.month, selectedComponents.date, selectedComponents.hours, selectedComponents.minutes)
+
     return (
         <div className={style.form}>
             <div className={style.selection}>
                 <strong>You have selected: </strong>
-                {new Date(selectedTime[0]).toDateString() + ' at ' + selectedTime[1].replace(':00 ', ' ')}
+                {selectedDate.toDateString() + ' at ' + `${selectedComponents.hours}:${selectedComponents.minutes < 10 ? '0' : ''}${selectedComponents.minutes}`}
             </div>
             <form
                 className={style.formation}
